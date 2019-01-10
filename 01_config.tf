@@ -1,6 +1,11 @@
 terraform {
-  required_version = ">= 0.10.3" # introduction of Local Values configuration language feature
+  backend "s3" {
+    bucket = "aou-tf-state"
+    key    = "cloud-networks"
+    region = "eu-west-1"
+  }
 }
 
-
- 
+provider "aws" {
+  region =  "${lookup(var.region_maps, terraform.workspace)}"
+}
